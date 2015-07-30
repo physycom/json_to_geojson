@@ -9,6 +9,6 @@ foreach($file_in in $FILES_INPUT)
 {
     Write-Host "PS---> Parsing: $file_in"
     $filename = $file_in.ToString().Split('.')
-    $file_out = "data\"+$filename[0]+"_out_p.json"
+    $file_out = "data\out\"+$filename[0]+"_out_p.json"
     &$converter -i data\$file_in -o $file_out -f p
 }
