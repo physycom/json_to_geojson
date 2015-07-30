@@ -8,6 +8,7 @@ Uses jsoncons library (https://github.com/danielaparker/jsoncons).
 ```
 json2geojson.exe -i input.json -o output.json -f format
 ```
+where *input.json* must be an existing and valid .json file with at least 'lat' and 'lon' fields, while *output.json* is the name of the output geojson.
 
 The flag -f specifies the type of the output geojson, and is one of 'p', 'm', 'fm', 'l', 'fl' (without quotes):
 - 'p' for a FeatureCollection of points,
@@ -58,6 +59,7 @@ or object-style:
         "lon":11.3648768
     }
 }
+```
 
 ### Output Sample
 FeatureCollection of points:
@@ -67,6 +69,7 @@ FeatureCollection of points:
   [{
       "geometry" : {
         "coordinates" :
+        [11.3648926, 44.5021611, 56],
         "type" : "Point"
       },
       "properties" : {
@@ -76,6 +79,7 @@ FeatureCollection of points:
     }, {
       "geometry" : {
         "coordinates" :
+        [11.3648768, 44.5021381],
         "type" : "Point"
       },
       "properties" : {
@@ -92,6 +96,8 @@ simple MultiPoint:
 {
   "coordinates" :
   [
+    [11.3648926, 44.5021611, 56],
+    [11.3648768, 44.5021381]
   ],
   "type" : "MultiPoint"
 }
@@ -102,6 +108,8 @@ Feature MultiPoint:
   "geometry" : {
     "coordinates" :
     [
+      [11.3648926, 44.5021611, 56],
+      [11.3648768, 44.5021381]
     ],
     "type" : "MultiPoint"
   },
@@ -114,6 +122,8 @@ simple LineString:
 {
   "coordinates" :
   [
+    [11.3648926, 44.5021611, 56],
+    [11.3648768, 44.5021381]
   ],
   "type" : "LineString"
 }
@@ -124,12 +134,15 @@ Feature LineString:
   "geometry" : {
     "coordinates" :
     [
+      [11.3648926, 44.5021611, 56],
+      [11.3648768, 44.5021381]
     ],
     "type" : "LineString"
   },
   "properties" : null,
   "type" : "Feature"
 }
+```
 
 
 Brought to you with :heart: by:
