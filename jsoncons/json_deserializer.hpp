@@ -43,12 +43,14 @@ public:
 
     basic_json<Char,Alloc>& root()
     {
-        return root_;
+        return result;
     }
+
+    basic_json<Char,Alloc> result;
 
 private:
 
-    bool push_object()
+    void push_object()
     {
         ++top_;
         if (top_ >= depth_)
@@ -57,10 +59,9 @@ private:
             stack_.resize(depth_);
         }
         stack_[top_].value = basic_json<Char,Alloc>();
-        return true;
     }
 
-    bool push_array()
+    void push_array()
     {
         ++top_;
         if (top_ >= depth_)
@@ -69,27 +70,18 @@ private:
             stack_.resize(depth_);
         }
         stack_[top_].value = basic_json<Char,Alloc>(basic_json<Char,Alloc>::an_array);
-        return true;
     }
 
-    bool pop_object()
+    void pop_object()
     {
-        if (top_ < 0 /*|| !stack_[top_].value.is_object()*/)
-        {
-            return false;
-        }
+        JSONCONS_ASSERT(top_ >= 0);
         --top_;
-        return true;
     }
 
-    bool pop_array()
+    void pop_array()
     {
-        if (top_ < 0 /*|| !stack_[top_].value.is_array()*/)
-        {
-            return false;
-        }
+        JSONCONS_ASSERT(top_ >= 0);
         --top_;
-        return true;
     }
 
     void do_begin_json() override
@@ -103,12 +95,12 @@ private:
     void do_begin_object(const basic_parsing_context<Char>& context) override
     {
         push_object();
-        stack_[top_].value.begin_insert();
+        stack_[top_].value.begin_bulk_insert();
     }
 
     void do_end_object(const basic_parsing_context<Char>&) override
     {
-        stack_[top_].value.end_insert();
+        stack_[top_].value.end_bulk_insert();
         if (top_ > 0)
         {
             if (stack_[top_-1].value.is_object())
@@ -122,7 +114,7 @@ private:
         }
         else
         {
-            root_.swap(stack_[0].value);
+            result.swap(stack_[0].value);
         }
         pop_object();
     }
@@ -147,7 +139,7 @@ private:
         }
         else
         {
-            root_.swap(stack_[0].value);
+            result.swap(stack_[0].value);
         }
         pop_array();
     }
@@ -229,7 +221,6 @@ private:
         }
     }
 
-	basic_json<Char,Alloc> root_;
     int top_;
     std::vector<stack_item> stack_;
     int depth_;

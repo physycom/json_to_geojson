@@ -40,6 +40,12 @@ namespace jsoncons {
 #   else
 #       define JSONCONS_NOEXCEPT
 #   endif
+#elif defined(__INTEL_COMPILER)
+#   if defined(_GLIBCXX_USE_NOEXCEPT)
+#      define JSONCONS_NOEXCEPT _GLIBCXX_USE_NOEXCEPT
+#   else
+#      define JSONCONS_NOEXCEPT noexcept
+#   endif
 #else
 #   define JSONCONS_NOEXCEPT
 #endif

@@ -1,4 +1,4 @@
-EXE = json2geojson.exe
+EXE = json_to_geojson.exe
 
 all:
-	g++ -std=c++11 -o $(EXE) -I. json_to_geojson.cpp -fpermissive
+	g++ -std=c++11 -o $(EXE) -I. json_to_geojson.cpp 
