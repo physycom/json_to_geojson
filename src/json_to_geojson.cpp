@@ -1,19 +1,23 @@
-/* Copyright 2015 - Marco Di Cristina */
+/* Copyright 2015--2017 - Marco Di Cristina, Stefano Sinigardi */
 
 /***************************************************************************
 This file is part of json_to_geojson.
+
 json_to_geojson is free software : you can redistribute it and / or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
+
 json_to_geojson is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
+
 You should have received a copy of the GNU General Public License
 along with json_to_geojson. If not, see <http://www.gnu.org/licenses/>.
 ***************************************************************************/
 
+#include <iostream>
 #include "jsoncons/json.hpp"
 
 using namespace std;
@@ -96,7 +100,7 @@ int main(int argc, char** argv) {
   if(outtype == "p") {
     outjson["type"] = "FeatureCollection";
 
-    json features_json(json::an_array);
+    json features_json = json::array();
 
     for (size_t i = 0; i < gps_records.size(); ++i) {
       json ijson;
@@ -130,7 +134,7 @@ int main(int argc, char** argv) {
     outjson["features"] = features_json;
   }
   else if (outtype == "m" || outtype == "l" || outtype == "fm" || outtype == "fl") {
-    json coords(json::an_array);
+    json coords = json::array();
     for (size_t i = 0; i < gps_records.size(); ++i) {
       json ijson;
       if (gps_records.is_array()) ijson = gps_records[i];
