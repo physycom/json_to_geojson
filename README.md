@@ -25,9 +25,9 @@ This tool has been written to convert data to the [GeoJson](http://geojson.org/)
 
 
 ### Installation
-**CMake**, **boost** and a **C++11** compatible compiler are required. To build the executable, clone the repo and then type  
+**CMake** and a **C++11** compatible compiler are required. To build the executable, clone the repo and then type  
 ```
-mkdir build ; cd build ; cmake .. ; cmake --build . --target install
+mkdir build ; cd build ; cmake .. ; cmake --build .
 ```
 With CMake you can also deploy projects for the most common IDEs.  
 Contains [jsoncons](https://github.com/danielaparker/jsoncons) as a git submodule.
@@ -173,6 +173,6 @@ Feature LineString:
 }
 ```
 
-More details can be found in our technical description of the file formats (document still not published)
+More details can be found in our technical description of the file formats published [here](https://github.com/physycom/file_format_specifications/blob/master/formati_file.md)
 
 
