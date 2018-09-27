@@ -12,3 +12,4 @@ set(JSONCONS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/src/jsoncons/include)
 include_directories(${JSONCONS_INCLUDE_DIR})
 
 add_executable(json_to_geojson ${CMAKE_SOURCE_DIR}/src/json_to_geojson.cpp)
+add_executable(geojson_to_json ${CMAKE_SOURCE_DIR}/src/geojson_to_json.cpp)

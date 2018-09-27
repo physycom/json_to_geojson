@@ -25,16 +25,16 @@ using namespace jsoncons;
 
 int main(int argc, char** argv) {
   cout << "Usage: " << argv[0] << " -i [input.json] -o [output.json] -f [output format]" << endl;
-  cout << "\t- [input.json] json file to parse" << endl;
-  cout << "\t- [output.kml] geojson file produced by this utility" << endl;
-  cout << "\t- [output format] is one of 'p', 'm', 'fm', 'l', 'fl' (without quotes):\n"
-    << "\t\t 'p' for a FeatureCollection of points,\n"
-    << "\t\t 'm' for a simple MultiPoint,\n"
-    << "\t\t 'fm' for a Feature MultiPoint,\n"
-    << "\t\t 'l' for a simple LineString,\n"
-    << "\t\t 'fl' for a Feature LineString" << endl;
+  cout << "\t- [input.json] geojson file to parse" << endl;
+  cout << "\t- [output.kml] json file produced by this utility (physycom standard)" << endl;
+  cout << "\t- Input file can be coded using one of these standard formats:\n"
+    << "\t\t FeatureCollection (supported),\n"
+    << "\t\t MultiPoint (todo),\n"
+    << "\t\t Feature_MultiPoint (todo),\n"
+    << "\t\t LineString (todo),\n"
+    << "\t\t Feature_LineString (todo)" << endl;
 
-  string input_name, output_name, outtype {};
+  string input_name, output_name;
 
   if (argc > 2) { /* Parse arguments, if there are arguments supplied */
     for (int i = 1; i < argc; i++) {
@@ -45,9 +45,6 @@ int main(int argc, char** argv) {
           break;
         case 'o':
           output_name = argv[++i];
-          break;
-        case 'f':
-          outtype = argv[++i];
           break;
         default:    // no match...
           cout << "Flag \"" << argv[i] << "\" not recognized. Quitting..." << endl;
@@ -93,80 +90,11 @@ int main(int argc, char** argv) {
     exit(33);
   }
 
-  json gps_records = json::parse_file(input_name);
-
+  json geojson_records = json::parse_file(input_name);
   json outjson;
 
-  if(outtype == "p") {
-    outjson["type"] = "FeatureCollection";
-
-    json features_json = json::array();
-
-    for (size_t i = 0; i < gps_records.size(); ++i) {
-      json ijson;
-      if (gps_records.is_array()) ijson = gps_records[i];
-      else if (gps_records.is_object()) {
-        auto obit = gps_records.begin_members(); for (size_t j = 0; j < i; ++j) ++obit;
-        ijson = obit->value();
-      }
-
-      try {
-          json feature_i;
-          feature_i["type"] = "Feature";
-
-            json properties; properties["index"] = i;
-          feature_i["properties"] = properties;
-
-            json geometry; geometry["type"] = "Point";
-              vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
-              if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
-              json coords = coor;
-            geometry["coordinates"] = coords;
-          feature_i["geometry"] = geometry;
-
-        features_json.add(feature_i);
-      }
-      catch (const exception& e) {
-        cerr << e.what() << endl;
-      }
-    }
-
-    outjson["features"] = features_json;
-  }
-  else if (outtype == "m" || outtype == "l" || outtype == "fm" || outtype == "fl") {
-    json coords = json::array();
-    for (size_t i = 0; i < gps_records.size(); ++i) {
-      json ijson;
-      if (gps_records.is_array()) ijson = gps_records[i];
-      else if (gps_records.is_object()) {
-        auto obit = gps_records.begin_members(); for (size_t j = 0; j < i; ++j) ++obit;
-        ijson = obit->value();
-      }
-      try {
-        vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
-        if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
-        json icoords = coor;
-
-        coords.add(icoords);
-      }
-      catch (const exception& e) {
-        cerr << e.what() << endl;
-      }
-    }
-
-    json subjson;
-    subjson["coordinates"] = coords;
-    if (outtype == "m" || outtype == "fm") subjson["type"] = "MultiPoint";
-    else                                   subjson["type"] = "LineString";
-
-    if (outtype == "m" || outtype == "l") outjson = subjson;
-    else {
-      outjson["type"] = "Feature";
-      outjson["geometry"] = subjson;
-      json emptyjson;
-      outjson["properties"] = emptyjson;
-      //outjson["properties"] = json::null;
-    }
+  if(geojson_records["type"] == "FeatureCollection") {
+      // todo
   }
 
   ofstream output_file(output_name);
