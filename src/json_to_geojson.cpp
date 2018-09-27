@@ -1,4 +1,4 @@
-/* Copyright 2015--2017 - Marco Di Cristina, Stefano Sinigardi */
+/* Copyright 2015--2018 - Marco Di Cristina, Stefano Sinigardi */
 
 /***************************************************************************
 This file is part of json_to_geojson.
@@ -120,7 +120,7 @@ int main(int argc, char** argv) {
             json geometry; geometry["type"] = "Point";
               vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
               if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
-              json coords(coor.begin(), coor.end());
+              json coords = coor;
             geometry["coordinates"] = coords;
           feature_i["geometry"] = geometry;
 
@@ -145,7 +145,7 @@ int main(int argc, char** argv) {
       try {
         vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
         if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
-        json icoords(coor.begin(), coor.end());
+        json icoords = coor;
 
         coords.add(icoords);
       }

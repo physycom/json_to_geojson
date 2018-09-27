@@ -1,44 +1,221 @@
 language: cpp
 
-os:
-  - linux
-  - osx
-
-compiler: 
-  - gcc
-  - clang
-
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    - sourceline: 'ppa:boost-latest/ppa'
-    packages:
-    - gcc-5
-    - g++-5
-    - cmake
-    - clang
-
 matrix:
-    exclude:
+  include:
+
     - os: osx
       compiler: gcc
+      name: macOS - gcc@5
+      env:
+        - MATRIX_EVAL="brew update && brew cask uninstall oclint && brew install gcc@5 && CC=gcc-5 && CXX=g++-5"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: osx
+      compiler: gcc
+      name: macOS - native gcc (llvm backend)
+      env:
+        - MATRIX_EVAL=""
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: osx
+      compiler: clang
+      name: macOS - native clang
+      env:
+        - MATRIX_EVAL=""
+        - EXTRA_CMAKE_SETTINGS=""
+
     - os: linux
       compiler: clang
+      name: ubuntu - native clang
+      addons:
+        apt:
+          update: true
+          packages:
+            - libc++-dev
+      env:
+        - MATRIX_EVAL=""
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@3.6
+      addons:
+        apt:
+          update: true
+          packages:
+            - clang-3.6
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@3.8
+      addons:
+        apt:
+          update: true
+          sources:
+            - llvm-toolchain-trusty-3.8
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-3.8
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@3.9
+      addons:
+        apt:
+          update: true
+          sources:
+            - llvm-toolchain-trusty-3.9
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-3.9
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@4.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - llvm-toolchain-trusty-4.0
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-4.0
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-4.0 && CXX=clang++-4.0"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@5.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - llvm-toolchain-trusty-5.0
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-5.0
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: clang
+      name: ubuntu - clang@6.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - llvm-toolchain-trusty-6.0
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-6.0
+            - libc++-dev
+      env:
+        - MATRIX_EVAL="CC=clang-6.0 && CXX=clang++-6.0"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - native gcc
+      addons:
+        apt:
+          update: true
+      env:
+        - MATRIX_EVAL=""
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - gcc@4.9
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      env:
+        - MATRIX_EVAL="CC=gcc-4.9 && CXX=g++-4.9 && AR=gcc-ar-4.9 && RANLIB=gcc-ranlib-4.9"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - gcc@5.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-5
+      env:
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5 && AR=gcc-ar-5 && RANLIB=gcc-ranlib-5"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - gcc@6.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-6
+      env:
+        - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6 && AR=gcc-ar-6 && RANLIB=gcc-ranlib-6"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - gcc@7.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-7
+      env:
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7 && AR=gcc-ar-7 && RANLIB=gcc-ranlib-7"
+        - EXTRA_CMAKE_SETTINGS=""
+
+    - os: linux
+      compiler: gcc
+      name: ubuntu - gcc@8.0
+      addons:
+        apt:
+          update: true
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-8
+      env:
+        - MATRIX_EVAL="CC=gcc-8 && CXX=g++-8 && AR=gcc-ar-8 && RANLIB=gcc-ranlib-8"
+        - EXTRA_CMAKE_SETTINGS=""
 
 before_install:
-  # OSX Setup 
-  - if [[ "$TRAVIS_OS_NAME" == "osx"   ]]; then brew update                                                                               ;fi
+  - eval "${MATRIX_EVAL}"
+  - git clone https://github.com/physycom/sysconfig.git
+  - export WORKSPACE=$(pwd)
 
 install:
-  # Linux Setup 
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="/usr/bin/g++-5"                                                               ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export CC="/usr/bin/gcc-5"                                                                ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then wget --no-check-certificate https://cmake.org/files/v3.8/cmake-3.8.0-Linux-x86_64.tar.gz  ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then tar -xzf cmake-3.8.0-Linux-x86_64.tar.gz                                                  ;fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then export PATH=$PWD/cmake-3.8.0-Linux-x86_64/bin:$PATH                                       ;fi 
-
+  - mkdir build && cd build
 
 script:
-  - mkdir build && cd build && cmake .. && cmake --build .
-
+  - cmake .. ${EXTRA_CMAKE_SETTINGS} && cmake --build .
