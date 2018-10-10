@@ -59,14 +59,14 @@ int main(int argc, char** argv) {
   }
   else { cout << "No flags specified. Read usage and relaunch properly." << endl; exit(111); }
 
-  if (input_name.size() > 5) {
-    if (input_name.substr(input_name.size() - 5, 5) != ".json") {
-      cout << input_name << " is not a valid .json file. Quitting..." << endl;
+  if (input_name.size() > 8) {
+    if (input_name.substr(input_name.size() - 8, 8) != ".geojson") {
+      cout << input_name << " is not a valid .geojson file. Quitting..." << endl;
       exit(2);
     }
   }
   else {
-    cout << input_name << " is not a valid .json file. Quitting..." << endl;
+    cout << input_name << " is not a valid .geojson file. Quitting..." << endl;
     exit(22);
   }
 
@@ -91,10 +91,17 @@ int main(int argc, char** argv) {
   }
 
   json geojson_records = json::parse_file(input_name);
-  json outjson;
+  json outjson = json::array();
 
-  if(geojson_records["type"] == "FeatureCollection") {
-      // todo
+  if(geojson_records["type"].as<string>() == "FeatureCollection") {
+    for (auto ft : geojson_records["features"].array_range()) {
+      json record;
+      record["lon"] = ft["geometry"]["coordinates"][0].as<double>();
+      record["lat"] = ft["geometry"]["coordinates"][1].as<double>();
+      if (ft["properties"].has_member("ID")) record["name"] = ft["properties"]["ID"].as<string>();
+      else if (ft["properties"].has_member("GEONAME")) record["name"] = ft["properties"]["GEONAME"].as<string>();
+      outjson.add(record);
+    }
   }
 
   ofstream output_file(output_name);

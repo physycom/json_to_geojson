@@ -82,14 +82,14 @@ int main(int argc, char** argv) {
   else { cout << "SUCCESS: file " << input_name << " opened!\n"; }
   input_file.close();
 
-  if (output_name.size() > 5) {
-    if (output_name.substr(output_name.size() - 5, 5) != ".json") {
-      cout << output_name << " is not a valid .json file. Quitting..." << endl;
+  if (output_name.size() > 8) {
+    if (output_name.substr(output_name.size() - 8, 8) != ".geojson") {
+      cout << output_name << " is not a valid .geojson file. Quitting..." << endl;
       exit(3);
     }
   }
   else {
-    cout << output_name << " is not a valid .json file. Quitting..." << endl;
+    cout << output_name << " is not a valid .geojson file. Quitting..." << endl;
     exit(33);
   }
 
