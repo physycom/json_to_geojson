@@ -111,19 +111,25 @@ int main(int argc, char** argv) {
       }
 
       try {
-          json feature_i;
-          feature_i["type"] = "Feature";
+        json feature_i;
+        feature_i["type"] = "Feature";
 
-            json properties; properties["index"] = i;
-          feature_i["properties"] = properties;
+        json properties;
+        properties["index"] = i+1;
+        if (ijson.has_member("geohash")) properties["geohash"] = ijson["geohash"];
+        if (ijson.has_member("ID")) properties["ID"] = ijson["ID"];
+        if (ijson.has_member("name")) properties["name"] = ijson["name"];
+        if (ijson.has_member("type")) properties["type"] = ijson["type"];
+        if (ijson.has_member("deprecated")) properties["deprecated"] = ijson["deprecated"];
+        feature_i["properties"] = properties;
 
-            json geometry; geometry["type"] = "Point";
-              vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
-              if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
-              json coords = coor;
-            geometry["coordinates"] = coords;
-          feature_i["geometry"] = geometry;
-
+        json geometry;
+        geometry["type"] = "Point";
+        vector<double> coor { ijson["lon"].as_double(), ijson["lat"].as_double() };
+        if (ijson.has_member("alt")) coor.push_back(ijson["alt"].as_double());
+        json coords = coor;
+        geometry["coordinates"] = coords;
+        feature_i["geometry"] = geometry;
         features_json.add(feature_i);
       }
       catch (const exception& e) {
