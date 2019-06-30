@@ -31,57 +31,12 @@ matrix:
 
     - os: linux
       compiler: clang
-      name: ubuntu - clang@3.6
-      addons:
-        apt:
-          update: true
-          packages:
-            - clang-3.6
-            - libc++-dev
-      env:
-        - MATRIX_EVAL="CC=clang-3.6 && CXX=clang++-3.6"
-        - EXTRA_CMAKE_SETTINGS=""
-
-    - os: linux
-      compiler: clang
-      name: ubuntu - clang@3.8
-      addons:
-        apt:
-          update: true
-          sources:
-            - llvm-toolchain-trusty-3.8
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-3.8
-            - libc++-dev
-      env:
-        - MATRIX_EVAL="CC=clang-3.8 && CXX=clang++-3.8"
-        - EXTRA_CMAKE_SETTINGS=""
-
-    - os: linux
-      compiler: clang
-      name: ubuntu - clang@3.9
-      addons:
-        apt:
-          update: true
-          sources:
-            - llvm-toolchain-trusty-3.9
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-3.9
-            - libc++-dev
-      env:
-        - MATRIX_EVAL="CC=clang-3.9 && CXX=clang++-3.9"
-        - EXTRA_CMAKE_SETTINGS=""
-
-    - os: linux
-      compiler: clang
       name: ubuntu - clang@4.0
       addons:
         apt:
           update: true
           sources:
-            - llvm-toolchain-trusty-4.0
+            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-4.0
@@ -97,7 +52,7 @@ matrix:
         apt:
           update: true
           sources:
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-5.0
@@ -113,7 +68,7 @@ matrix:
         apt:
           update: true
           sources:
-            - llvm-toolchain-trusty-6.0
+            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
