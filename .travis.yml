@@ -36,7 +36,6 @@ matrix:
         apt:
           update: true
           sources:
-            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-4.0
@@ -52,7 +51,6 @@ matrix:
         apt:
           update: true
           sources:
-            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-5.0
@@ -68,7 +66,6 @@ matrix:
         apt:
           update: true
           sources:
-            - llvm-toolchain-xenial
             - ubuntu-toolchain-r-test
           packages:
             - clang-6.0
